@@ -9,8 +9,10 @@
 
   <!-- MAIN CSS -->
   <link rel="stylesheet" href="css/main.css">
+  
   <!-- MAIN JS -->
-  <script src="js/main.js"></script>
+  <script type="module" src="js/main.js"></script>
+  
 
   <!-- FAVICON -->
   <link rel="apple-touch-icon" sizes="180x180" href="img/favicon/apple-touch-icon.png">
@@ -20,12 +22,66 @@
 </head>
 
 <body>
+ 
+	 <!-- Statistics button -->
+	 <button id="stats_button" onclick="on()">
+		<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+			<path fill="var(--color-tone-1)" d="M16,11V3H8v6H2v12h20V11H16z M10,5h4v14h-4V5z M4,11h4v8H4V11z M20,19h-4v-6h4V19z"></path>
+		  <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+			<path fill="var(--color-tone-1)" d="M16,11V3H8v6H2v12h20V11H16z M10,5h4v14h-4V5z M4,11h4v8H4V11z M20,19h-4v-6h4V19z"></path>
+		  </svg></svg>
+	 </button>
+
+	<!-- The Statistics Modal -->
+	<div id="statistics" class="modal">
+
+		<!-- Modal content -->
+		<div class="modal-content">
+			<p class="stats_Title">STATISTICS</p>
+			<br>
+			<p>Times played: <span id="stats_1">0</span></p>
+			<p>Win %: <span id="stats_2">0</span></p>
+			<p>Current Streak: <span id="stats_3">0</span></p>
+			<p>Max Streak: <span id="stats_4">0</span></p>
+		</div>
+
+	</div>
+
+	<script>
+		// Get the modal
+		var modal = document.getElementById("statistics");
+
+		// Get the button that opens the modal
+		var btn = document.getElementById("stats_button");
+
+		// Get the <span> element that closes the modal
+		var span = document.getElementsByClassName("close")[0];
+
+		// When the user clicks the button, open the modal 
+		btn.onclick = function() {
+		  modal.style.display = "block";
+		}
+
+		// When the user clicks anywhere outside of the modal, close it
+		window.onclick = function(event) {
+		  if (event.target == modal) {
+			modal.style.display = "none";
+		  }
+		}
+	</script>
+
   <!-- Sprint 1 and Gameplay -->
   <div id="container">
+ 
     <div id="game">
       <!-- HEADING -->
       <header>
         <h1 class="title">WORDLE</h1>
+        <div class="menu">
+     <!--     <button id="stat-button" class="icon" aria-label="statistics">
+            <game-icon icon="statistics"></game-icon>
+          </button> -->
+        </div>
         <hr>
       </header>
 

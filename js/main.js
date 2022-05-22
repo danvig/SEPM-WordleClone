@@ -1,8 +1,10 @@
 /*
     Main.js
-    Date: 28/04/2022
     Authors: Team 10E Development Team
 */
+
+		
+import { words } from './words.js';
 
 // Draw grid as much as numOfRow
 const drawGrid = (numOfRow) => {
@@ -67,37 +69,95 @@ const evaluateDeletedLetter = (isAnimating, guessedWords, freeSpace) => {
   return freeSpace;
 }
 
-async function evaluateEnteredWord(word, animationStateUpdater, guessedWordCountUpdater, guessedWords, guessedWordCount) {
+async function evaluateEnteredWord(word, animationStateUpdater, guessedWordCountUpdater, guessedWords, guessedWordCount, updateGameState) {
   let currentGuess = [...getCurrentlyGuessedWord(guessedWords)];
   // Letter inputed is not upto guessing length
   if (currentGuess.length !== 5) {
     window.alert("Word Must be 5 Letters");
   } else {
     let currentGuesses = currentGuess.join("");
+    if (!words.includes(currentGuesses)) {
+      window.alert(`Word ${currentGuesses} does not exists in the dictionary!`);
+    } else {
+      //Changing square colors using getBoxColor function
+      let firstLetterId = guessedWordCount * 5;
+      animationStateUpdater(true)
+      for (let index = 0; index < currentGuess.length; index++) {
+        let letter = currentGuess[index];
+        let squareColor = getColor(letter, index, word);
+        let letterId = firstLetterId + index;
+        let letterEl = document.getElementById(letterId);
+        letterEl.style = `background-color:${squareColor};border-color:${squareColor}`;
+        await delay(200)
+      }
+      animationStateUpdater(false)
 
-    //Changing square colors using getBoxColor function
-    let firstLetterId = guessedWordCount * 5;
-    animationStateUpdater(true)
-    for (let index = 0; index < currentGuess.length; index++) {
-      let letter = currentGuess[index];
-      let squareColor = getColor(letter, index, word);
-      let letterId = firstLetterId + index;
-      let letterEl = document.getElementById(letterId);
-      letterEl.style = `background-color:${squareColor};border-color:${squareColor}`;
-      await delay(200)
+      // guessedWordCount += 1;
+      guessedWordCountUpdater()
+
+      // Calculate time till the next wordle
+      const d = new Date();
+      d.toLocaleString('en-US', { hour12: false, });
+      let hours = 24 - d.getHours();
+      let minutes = 60 - d.getMinutes();
+      let streak;
+      // Congratulation message if correct guess
+      if (currentGuesses === word) {
+        updateGameState(true)
+        window.alert("Congratulations! You have won the wordle for today. \n \n Time till next wordle: \n " + hours + " hours and " + minutes + " minutes");
+        let shareData = "I successfully guessed \'" + word + "\' in " + (guessedWordCount + 1) + " attempt on wordle";
+        showShare(shareData)
+		
+		// Statistics
+		document.getElementById("stats_1").innerHTML = "1";
+		document.getElementById("stats_2").innerHTML = "100";
+		document.getElementById("stats_3").innerHTML = "1";
+		document.getElementById("stats_4").innerHTML = "1";
+      }
+
+      // More than 6 wrong guesses
+      else if (guessedWords.length === 6) {
+        window.alert("You Lose! The word for today is ${word}.\n \n Time till next wordle: \n " + hours + " hours and " + minutes + " minutes");
+		
+		// Statistics
+		document.getElementById("stats_1").innerHTML = "1";
+		document.getElementById("stats_2").innerHTML = "0";
+		document.getElementById("stats_3").innerHTML = "0";
+		document.getElementById("stats_4").innerHTML = "0";
+      }
+      guessedWords.push([]);
     }
-    animationStateUpdater(false)
-
-    // guessedWordCount += 1;
-    guessedWordCountUpdater()
-
-    // Congratulation message if correct guess
-    if (currentGuesses === word) {
-      window.alert("Congratulations! You have won the wordle for today");
-      isGameEnd = true;
-    }
-    guessedWords.push([]);
   }
+}
+
+
+const showShare = (data) => {
+  let fb = false
+  let tw = false
+  if (confirm("Do you want to share on Facebook?")) {
+    fb = true
+  }
+  if (confirm("Do you want to share on Twitter?")) {
+    tw = true
+  }
+
+  if (fb) shareOnFacebook(data)
+  if (tw) shareOnTwitter(data)
+}
+
+function shareOnFacebook(data) {
+  const navUrl =
+    'https://www.facebook.com/sharer/sharer.php?u=www.wordle.com' +
+    '&quote=' +
+    data;
+  window.open(navUrl, '_blank');
+}
+
+function shareOnTwitter(data) {
+  const navUrl =
+    'https://twitter.com/intent/tweet?text=' +
+    data;
+  window.open(navUrl, '_blank');
 }
 
 
@@ -116,6 +176,7 @@ const main = () => {
   drawGrid(6)
 
   const updateAnimationState = (state) => isAnimating = state
+  const updateGameState = (state) => isGameEnd = state
   const incrementGuessedWordCount = () => guessedWordCount += 1
 
   // Get all keybords element and add event listener
@@ -128,7 +189,7 @@ const main = () => {
         let keypadKey = target.getAttribute("data-key");
 
         if (keypadKey === 'enter') {
-          evaluateEnteredWord(word, updateAnimationState, incrementGuessedWordCount, guessedWords, guessedWordCount);
+          evaluateEnteredWord(word, updateAnimationState, incrementGuessedWordCount, guessedWords, guessedWordCount, updateGameState);
           return;
         }
 
@@ -143,6 +204,7 @@ const main = () => {
   }
 
 }
+
 
 // Run function after page initialized
 document.addEventListener("DOMContentLoaded", main)

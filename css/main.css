@@ -1,6 +1,5 @@
 /*
     CSS FILE FOR TEAM 10E WORDLE
-    Date: 28/04/2022
     Authors: Team 10E Development Team
 */
 
@@ -138,4 +137,54 @@ html, body {
 
 .spacer-half {
     flex-grow:0.5;
+}
+
+/* 5.0 STATISTICS */
+
+ #stats_button {
+     line-height: 12px;
+     width: 40px;
+     font-size: 8pt;
+     font-family: tahoma;
+     margin-top: 1px;
+     margin-right: 2px;
+     position:absolute;
+     top:0;
+     right:0;
+ }
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  padding-top: 200px;
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto;
+  background-color: rgb(0,0,0);
+  background-color: rgba(0,0,0,0.4); 
+}
+
+/* Modal Content */
+.modal-content {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 30%;
+  text-align: center
+}
+
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.stats_Title {
+	font-weight: bold;
 }
