@@ -1,0 +1,141 @@
+/*
+    CSS FILE FOR TEAM 10E WORDLE
+    Date: 28/04/2022
+    Authors: Team 10E Development Team
+*/
+
+/* 0.0 INSTRUCTIONS - NOT PART OF SPRINT 1 */
+.instructions-image {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* 1.0 BASIC PAGE SETUP AND MOBILE PAGE FUNCTIONALITY */
+* {
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    height:100%;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+#container {
+    display: flex;
+    height: 100%;
+    align-items: center;
+    flex-direction: column;
+    background-color:white;
+}
+
+#game {
+    width:100%;
+    max-width:500px;
+    height:100%;
+    display: flex;
+    flex-direction: column;
+}
+
+/* 1.1 INSTRUCTIONS POP-UP */
+.instructions-container {
+    width: 150px;
+    height: 150px;
+    position: relative;
+    margin: 30px;
+}
+
+.instructions-box {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.instructions-overlay {
+    z-index: 9;
+    margin: 30px;
+}
+
+/* 2.0 STYLING FOR TITLE "WORDLE" */
+.title {
+    color: black;
+    font-size: 2.5rem;
+    font-weight: bold;
+    padding-top:0.4rem;
+    text-align:center;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* 3.0 STYLING FOR 5x5 GRID */
+#grid-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+    overflow: hidden;
+}
+
+#grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-gap: 5px;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.square {
+    border:2px solid black;
+    min-width: 60px;
+    min-height: 60px;
+    font-size: 50px;
+    font-weight: bold;
+    color: black;
+    text-transform: uppercase;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* 4.0 STYLING FOR ON-SCREEN KEYBOARD */
+/* Idea came from a YouTube Video for how to achieve this */
+/* Functionality implemented in JS */
+#keypad-container {
+    height: 220px;
+}
+
+.keypad-row {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin: 0 auto 8px;
+    touch-action: manipulation;
+}
+
+.keypad-row button {
+    font-family: inherit;
+    font-weight: bold;
+    border: 0;
+    padding: 0;
+    height: 58px;
+    cursor: pointer;
+    background-color: #D3D6DA; /* Same as actual Wordle */
+    color: black;
+    flex-grow: 1;
+    text-transform: uppercase;
+    margin-right: 6px;
+    border-radius: 5px;
+    user-select:none;
+}
+
+.keypad-row button.wide-button {
+    flex-grow: 1.5;
+}
+
+.spacer-half {
+    flex-grow:0.5;
+}
